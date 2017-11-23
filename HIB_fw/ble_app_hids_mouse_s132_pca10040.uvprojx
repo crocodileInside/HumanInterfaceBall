@@ -51,7 +51,7 @@ rf52xxx_uicr.flm))</FlashDriverDll>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\_build\</OutputDirectory>
-          <OutputName>nrf52832_xxaa_s132</OutputName>
+          <OutputName>nrf52832_HIB</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -385,7 +385,7 @@ rf52xxx_uicr.flm))</FlashDriverDll>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\main.c</FilePath>
+              <FilePath>main.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -445,12 +445,12 @@ rf52xxx_uicr.flm))</FlashDriverDll>
             <File>
               <FileName>Abstract.txt</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\Abstract.txt</FilePath>
+              <FilePath>Abstract.txt</FilePath>
             </File>
             <File>
               <FileName>license.txt</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\license.txt</FilePath>
+              <FilePath>license.txt</FilePath>
             </File>
           </Files>
         </Group>
@@ -855,7 +855,7 @@ rf52xxx_uicr.flm))</FlashDriverDll>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\main.c</FilePath>
+              <FilePath>main.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -915,12 +915,12 @@ rf52xxx_uicr.flm))</FlashDriverDll>
             <File>
               <FileName>Abstract.txt</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\Abstract.txt</FilePath>
+              <FilePath>Abstract.txt</FilePath>
             </File>
             <File>
               <FileName>license.txt</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\license.txt</FilePath>
+              <FilePath>license.txt</FilePath>
             </File>
           </Files>
         </Group>
