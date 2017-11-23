@@ -1,0 +1,5 @@
+Dependencies for Project 'HIB_fw', Target 'Target 1': (DO NOT MODIFY !)
+F (.\arm_startup_nrf52.s)(0x59D3582C)(--cpu Cortex-M4.fp --li --pd "__EVAL SETA 1" -g --apcs=interwork -ID:\Keil5\ARM\RV31\INC-ID:\Keil5\ARM\CMSIS\Include-ID:\Keil5\ARM\Device\Nordic\nRF52832\Include--pd "__UVISION_VERSION SETA 524"--list .\listings\arm_startup_nrf52.lst --xref -o .\objects\arm_startup_nrf52.o --depend .\objects\arm_startup_nrf52.d)
+F (.\main.c)(0x5673E74C)(--c99 -c --cpu Cortex-M4.fp -D__EVAL --li -g -O0 --apcs=interwork --split_sections-ID:\Keil5\ARM\RV31\INC-ID:\Keil5\ARM\CMSIS\Include-ID:\Keil5\ARM\Device\Nordic\nRF52832\Include-D__UVISION_VERSION="524"-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (D:\Keil5\ARM\ARMCC\include\stdint.h)(0x588BE5B4)
+I (D:\Keil5\ARM\ARMCC\include\string.h)(0x588BE5B4)
