@@ -65,10 +65,6 @@ void doCalibration(){
   basePressure = pAvg;
 }
 
-
-
-
-
 void setup() {
   Serial.begin(115200);
 
@@ -117,7 +113,7 @@ int i = 0;
 int ledstate = 0;
 
 
-#define ROLL_AVG_SIZE   8
+#define ROLL_AVG_SIZE   32
 float gyroAvgArrX[ROLL_AVG_SIZE];
 float gyroAvgArrY[ROLL_AVG_SIZE];
 float gyroAvgArrZ[ROLL_AVG_SIZE];
@@ -184,7 +180,7 @@ void loop() {
       
       int tempButtonState = 0;
       Serial.println(dP);
-      if(dP > 3.0f){
+      if(dP > 1.0f){
         tempButtonState = 1;
         moveLockTimeout = 50;
       }else if(dP < 1.0f){
@@ -223,6 +219,7 @@ void loop() {
       
       int x = dY/5.0f;
       int y = dX/5.0f;
+      int z = dZ/5.0f;
 
       if(moveLockTimeout > 0){
         x = 0;
@@ -231,7 +228,8 @@ void loop() {
       }
 
       if (x || y) {
-        bleMouse.move(x, y);
+        bleMouse.move(x, y, z);
+        Serial.print("Z:"); Serial.print(z);
       }
 
       ledstate = !ledstate;
