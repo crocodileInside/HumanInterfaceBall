@@ -2,6 +2,7 @@
 #include <BLEHIDPeripheral.h>
 #include <BLEMouse.h>
 #include <BLEKeyboard.h>
+#include <BLEMultimedia.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
