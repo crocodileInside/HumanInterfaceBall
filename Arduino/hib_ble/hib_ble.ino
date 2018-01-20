@@ -24,8 +24,8 @@ int joystickXCenter;
 int joystickYCenter;
 int Hold_Var=0;
 float basePressure = 954.0f;
-//float accX=0, accY=0;
-//int pos_acc=0;
+float accX=0, accY=0,accZ=0;
+int pos_acc=0;
 
 
 
@@ -180,13 +180,38 @@ void loop() {
     Serial.println(central.address());
   
 
+
+
+
+
+
+
+
+
+
     while (central.connected()) {
 
       float pressure = bme.readPressure()/100.0f;
       float dP = pressure - basePressure;
-      
       int tempButtonState = 0;
-      Serial.println(dP);
+
+
+
+      //Middle Button Click for scroll function
+      imu::Vector<3> acc = bno.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
+
+      accX= acc.x();
+      accY= acc.y();
+      accZ= acc.z();
+
+      if((accY >=10.0f)||(accZ >=10.0f)){
+        pos_acc=1;
+      }
+      if(pos_acc == 1 && (accY<=-10.0f||accZ<=-10.0f)){
+        tempButtonState=4;
+        }     
+      
+      //Serial.println(dP);
       if(dP>=20){
         tempButtonState=3;        
       }else if(dP > 1.0f && dP < 20.0f){
@@ -197,7 +222,7 @@ void loop() {
           }else{
             Hold_Var = 1; 
           }
-      }else if(dP < 1.0f /*&& pos_acc != 1*/){
+      }else if(dP < 1.0f && pos_acc != 1){
         tempButtonState = 2;
       }
       
@@ -206,12 +231,14 @@ void loop() {
         switch(buttonState)
         {
           case 1: { // Press Mouse Btn Left
-            Serial.println(F("Mouse press"));   // Left press Button
+            //Serial.println(F("Mouse press"));   // Left press Button
             bleMouse.press(MouseBtnLeft);
+            bleMouse.release(MouseBtnMiddle);
+            pos_acc=0;
             break;
           }                  
           case 2: { // Release Mouse Btn Left
-            Serial.println(F("Mouse release")); // Left release Button
+            //Serial.println(F("Mouse release")); // Left release Button
             if(Hold_Var != 1){
             bleMouse.release(MouseBtnLeft);
             }
@@ -223,34 +250,15 @@ void loop() {
             moveLockTimeout = 50;
             break;
           }
-//          case 4: { // Click Mouse Btn Right    // Middle Button press
-//            moveLockTimeout = 50;
-//            bleMouse.press(MouseBtnMiddle);
-//            moveLockTimeout = 50;
-//            break;
-//          }
+          case 4: { // Click Mouse Btn Right    // Middle Button press
+            moveLockTimeout = 100;
+            bleMouse.press(MouseBtnMiddle);
+            moveLockTimeout = 100;
+            break;
+          }
           default: {break;}       
         }
       }
-
-//      Middle Button Click for scroll function
-//      imu::Vector<3> acc = bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
-//
-//      accX= acc.x();
-//      accY= acc.y();
-//
-//      if(accY >=15.0f){
-//        pos_acc=1;
-//      }
-//      if(pos_acc == 1 /*&& accY<=-5.0f*/){
-//        tempButtonState=4;
-//      }
-
-
-
-
-      
-
 
       imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
       gyroX = gyro.x();
@@ -281,7 +289,7 @@ void loop() {
 
       if (x || y) {
         bleMouse.move(x, y, z);
-        Serial.print("Z:"); Serial.print(z);
+        //Serial.print("Z:"); Serial.print(z);
       }
 
       ledstate = !ledstate;
