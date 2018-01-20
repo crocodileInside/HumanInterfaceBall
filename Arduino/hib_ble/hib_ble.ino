@@ -8,18 +8,25 @@
 #include <Adafruit_BME280.h>
 #include <utility/imumaths.h>
 
-
+#define MouseBtnLeft   0x01
+#define MouseBtnRight  0x02
+#define MouseBtnMiddle 0x04
 
 //custom boards may override default pin definitions with BLEHIDPeripheral(PIN_REQ, PIN_RDY, PIN_RST)
 BLEHIDPeripheral bleHIDPeripheral = BLEHIDPeripheral();
 BLEMouse bleMouse;
 BLEKeyboard bleKeyboard;
 
+
+
 int buttonState;
 int joystickXCenter;
 int joystickYCenter;
-
+int Hold_Var=0;
 float basePressure = 954.0f;
+//float accX=0, accY=0;
+//int pos_acc=0;
+
 
 
 Adafruit_BNO055 bno = Adafruit_BNO055();
@@ -180,24 +187,69 @@ void loop() {
       
       int tempButtonState = 0;
       Serial.println(dP);
-      if(dP > 1.0f){
-        tempButtonState = 1;
-        moveLockTimeout = 50;
-      }else if(dP < 1.0f){
+      if(dP>=20){
+        tempButtonState=3;        
+      }else if(dP > 1.0f && dP < 20.0f){
+          tempButtonState = 1;      // Left Button click
+          if(dP < 10.0f){
+            Hold_Var=0;
+            moveLockTimeout = 50;   // mouse freeze
+          }else{
+            Hold_Var = 1; 
+          }
+      }else if(dP < 1.0f /*&& pos_acc != 1*/){
         tempButtonState = 2;
       }
       
-      if (tempButtonState != buttonState) {
+      if ((tempButtonState != buttonState)) {
         buttonState = tempButtonState;
-
-        if (buttonState == 1) {
-          Serial.println(F("Mouse press"));
-          bleMouse.press();
-        } else if(buttonState == 2){
-          Serial.println(F("Mouse release"));
-          bleMouse.release();
+        switch(buttonState)
+        {
+          case 1: { // Press Mouse Btn Left
+            Serial.println(F("Mouse press"));   // Left press Button
+            bleMouse.press(MouseBtnLeft);
+            break;
+          }                  
+          case 2: { // Release Mouse Btn Left
+            Serial.println(F("Mouse release")); // Left release Button
+            if(Hold_Var != 1){
+            bleMouse.release(MouseBtnLeft);
+            }
+            break;
+          }
+          case 3: { // Click Mouse Btn Right    // Right Button click
+            moveLockTimeout = 50;
+            bleMouse.click(MouseBtnRight);
+            moveLockTimeout = 50;
+            break;
+          }
+//          case 4: { // Click Mouse Btn Right    // Middle Button press
+//            moveLockTimeout = 50;
+//            bleMouse.press(MouseBtnMiddle);
+//            moveLockTimeout = 50;
+//            break;
+//          }
+          default: {break;}       
         }
       }
+
+//      Middle Button Click for scroll function
+//      imu::Vector<3> acc = bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
+//
+//      accX= acc.x();
+//      accY= acc.y();
+//
+//      if(accY >=15.0f){
+//        pos_acc=1;
+//      }
+//      if(pos_acc == 1 /*&& accY<=-5.0f*/){
+//        tempButtonState=4;
+//      }
+
+
+
+
+      
 
 
       imu::Vector<3> gyro = bno.getVector(Adafruit_BNO055::VECTOR_GYROSCOPE);
